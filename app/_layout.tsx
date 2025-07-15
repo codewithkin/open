@@ -1,6 +1,9 @@
 import '../global.css';
 import 'expo-dev-client';
 
+import 'react-native-reanimated'
+import 'react-native-gesture-handler'
+
 import { StatusBar } from 'expo-status-bar';
 
 import { Stack } from 'expo-router';
