@@ -8,7 +8,8 @@ const TabsLayout = () => {
             tabBarActiveBackgroundColor: "#183431"
         }}>
             <Tabs.Screen name="feed" options={{
-                headerShown: false
+                headerShown: false,
+                tabBarLabel: "Feed"
             }} />
         </Tabs>
     )
