@@ -24,7 +24,11 @@ export default function Layout() {
       />
 
       <NavThemeProvider value={NAV_THEME[colorScheme]}>
-        <Stack />
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{
+            headerShown: false
+          }} />
+        </Stack>
       </NavThemeProvider>
     </>
 

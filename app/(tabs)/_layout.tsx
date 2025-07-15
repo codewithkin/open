@@ -4,8 +4,12 @@ import { Tabs } from 'expo-router'
 
 const TabsLayout = () => {
     return (
-        <Tabs>
-
+        <Tabs screenOptions={{
+            tabBarActiveBackgroundColor: "#183431"
+        }}>
+            <Tabs.Screen name="feed" options={{
+                headerShown: false
+            }} />
         </Tabs>
     )
 }
