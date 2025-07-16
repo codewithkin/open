@@ -20,7 +20,6 @@ const TabsLayout = () => {
                 }}
             />
 
-
             <Tabs.Screen
                 name="new"
                 options={{

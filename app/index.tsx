@@ -1,39 +1,95 @@
-import { Stack, Link, router } from 'expo-router';
-import { ImageBackground, Text, View } from 'react-native';
+import * as React from 'react';
+import { View } from 'react-native';
+import Animated, { FadeInUp, FadeOutDown, LayoutAnimationConfig } from 'react-native-reanimated';
+import { Info } from '~/lib/icons/Info';
+import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
+import { Button } from '~/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card';
+import { Progress } from '~/components/ui/progress';
+import { Text } from '~/components/ui/text';
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
 
-import { Button } from '~/components/Button';
-import { Container } from '~/components/Container';
+const GITHUB_AVATAR_URI =
+  'https://i.pinimg.com/originals/ef/a2/8d/efa28d18a04e7fa40ed49eeb0ab660db.jpg';
 
-// TODO: Add Moti animations to this page
+export default function Screen() {
+  const [progress, setProgress] = React.useState(78);
 
-export default function Home() {
+  function updateProgressValue() {
+    setProgress(Math.floor(Math.random() * 100));
+  }
   return (
-    <>
-      <Stack.Screen options={{
-        headerShown: false
-      }} />
-      <ImageBackground
-        className="w-full h-full relative"
-        source={{
-          uri: "https://imgs.search.brave.com/Lc-IBReFhsIKzLbSCIHpmw2RxOVal77eK-5_LqXTcZA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzg2LzQx/L2U3Lzg2NDFlN2Vk/ZGFkNmU3MzFkZjM0/N2I3NjhiN2ZiOGQy/LmpwZw"
-        }}>
-        {/* Floating dark overlay */}
-        <View className="w-full h-full absolute bg-black opacity-70"></View>
-        <Container>
-          <View className="h-full flex flex-col justify-end gap-12">
-            {/* Copy */}
-            <View className="flex flex-col">
-              <Text className='text-4xl font-semibold text-white mb-2 text-center'>Welcome to Open</Text>
-              <Text className='text-md text-gray-400 text-center'>A safe space to let it all out, no cricism, no judgement...completely anonymous</Text>
-            </View>
-
-            <Button onPress={() => {
-              router.push("/(tabs)/feed")
-            }} title="Enter the space">Enter the space</Button>
+    <View className='flex-1 justify-center items-center gap-5 p-6 bg-secondary/30'>
+      <Card className='w-full max-w-sm p-6 rounded-2xl'>
+        <CardHeader className='items-center'>
+          <Avatar alt="Rick Sanchez's Avatar" className='w-24 h-24'>
+            <AvatarImage source={{ uri: GITHUB_AVATAR_URI }} />
+            <AvatarFallback>
+              <Text>RS</Text>
+            </AvatarFallback>
+          </Avatar>
+          <View className='p-3' />
+          <CardTitle className='pb-2 text-center'>Rick Sanchez</CardTitle>
+          <View className='flex-row'>
+            <CardDescription className='text-base font-semibold'>Scientist</CardDescription>
+            <Tooltip delayDuration={150}>
+              <TooltipTrigger className='px-2 pb-0.5 active:opacity-50'>
+                <Info size={14} strokeWidth={2.5} className='w-4 h-4 text-foreground/70' />
+              </TooltipTrigger>
+              <TooltipContent className='py-2 px-4 shadow'>
+                <Text className='native:text-lg'>Freelance</Text>
+              </TooltipContent>
+            </Tooltip>
           </View>
-        </Container>
-      </ImageBackground>
-
-    </>
+        </CardHeader>
+        <CardContent>
+          <View className='flex-row justify-around gap-3'>
+            <View className='items-center'>
+              <Text className='text-sm text-muted-foreground'>Dimension</Text>
+              <Text className='text-xl font-semibold'>C-137</Text>
+            </View>
+            <View className='items-center'>
+              <Text className='text-sm text-muted-foreground'>Age</Text>
+              <Text className='text-xl font-semibold'>70</Text>
+            </View>
+            <View className='items-center'>
+              <Text className='text-sm text-muted-foreground'>Species</Text>
+              <Text className='text-xl font-semibold'>Human</Text>
+            </View>
+          </View>
+        </CardContent>
+        <CardFooter className='flex-col gap-3 pb-0'>
+          <View className='flex-row items-center overflow-hidden'>
+            <Text className='text-sm text-muted-foreground'>Productivity:</Text>
+            <LayoutAnimationConfig skipEntering>
+              <Animated.View
+                key={progress}
+                entering={FadeInUp}
+                exiting={FadeOutDown}
+                className='w-11 items-center'
+              >
+                <Text className='text-sm font-bold text-sky-600'>{progress}%</Text>
+              </Animated.View>
+            </LayoutAnimationConfig>
+          </View>
+          <Progress value={progress} className='h-2' indicatorClassName='bg-sky-600' />
+          <View />
+          <Button
+            variant='outline'
+            className='shadow shadow-foreground/5'
+            onPress={updateProgressValue}
+          >
+            <Text>Update</Text>
+          </Button>
+        </CardFooter>
+      </Card>
+    </View>
   );
 }
